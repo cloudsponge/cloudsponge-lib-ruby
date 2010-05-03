@@ -9,6 +9,10 @@ module Cloudsponge
       list.map { |event_data| Event.new(event_data) }.compact
     end
 
+    def inspect
+        "\#<#{self.class} #{event_type} #{status} #{value}>"
+    end
+
     def initialize(event_data)
       # is it an error?
       
@@ -21,7 +25,7 @@ module Cloudsponge
     end
     
     def is_error?
-      self.event_type == 'ERROR'
+      self.status == 'ERROR'
     end
 
     def is_complete?
