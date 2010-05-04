@@ -28,11 +28,11 @@ module Cloudsponge
     end
 
     def email
-      get_first_value(self.emails)
+      Contact.get_first_value(self.emails)
     end
 
     def phone
-      get_first_value(self.phones)
+      Contact.get_first_value(self.phones)
     end
 
     def add_array_value(collection, value, type = nil)
