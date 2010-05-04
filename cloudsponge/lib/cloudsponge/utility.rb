@@ -31,7 +31,7 @@ module Cloudsponge
     def self.decode_response(response)
       if response.code_type == Net::HTTPOK
         # decode the response into an asscoiative array
-        resp = decode_response(response.body, 'json')
+        resp = decode_response_body(response.body, 'json')
         raise CsException.new(resp['error']['message'], response['code']) if resp['error']
       else
         raise CsException.new(response.body, response.code)
@@ -39,7 +39,7 @@ module Cloudsponge
       resp
     end
 
-    def self.decode_response(response, format = 'json')
+    def self.decode_response_body(response, format = 'json')
       # TODO: account for systems that use a different JSON parser. Look for json gem...
       # TODO: implement alternate formats: XML
       object = {'error' => {'message' => 'failed to parse data.', 'code' => 1}}
