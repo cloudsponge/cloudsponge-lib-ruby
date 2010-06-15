@@ -151,12 +151,39 @@ module Cloudsponge
 
     def create_applet_tag(id, url)
       <<-EOS
-  <APPLET archive="#{url}" code="ContactsApplet" id="Contact_Importer" width="0" height="0">
-    <PARAM name="cookieValue" value="document.cookie"/>
-    <PARAM name="importId" value="#{id}"/>
-    Your browser does not support Java which is required for this utility to operate correctly.
-  </APPLET>
+  <!--[if !IE]> Firefox and others will use outer object -->
+    <object classid="java:ContactsApplet" type="application/x-java-applet" archive="#{url}" height="1" width="1" >
+      <!-- Konqueror browser needs the following param -->
+      <param name="archive" value="#{url}" />
+      <param name="cookieValue" value="document.cookie"/>
+      <param name="importId" value="#{id}"/>
+      <!--<![endif]-->
+      <!-- MSIE (Microsoft Internet Explorer) will use inner object --> 
+      <object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" 
+              codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0-windows-i586.cab"
+              height="0" width="0" > 
+        <param name="code" value="ContactsApplet" />
+        <param name="archive" value="#{url}" />
+        <param name="cookieValue" value="document.cookie"/>
+        <param name="importId" value="#{id}"/>  <strong>
+          This browser does not have a Java Plug-in.
+          <br />
+          <a href="http://java.sun.com/products/plugin/downloads/index.html">
+            Get the latest Java Plug-in here.
+          </a>
+        </strong>
+      </object> 
+    <!--[if !IE]> close outer object -->
+    </object>
+  <!--<![endif]-->
   EOS
+  #     <<-EOS
+  # <APPLET archive="#{url}" code="ContactsApplet" id="Contact_Importer" width="0" height="0">
+  #   <PARAM name="cookieValue" value="document.cookie"/>
+  #   <PARAM name="importId" value="#{id}"/>
+  #   Your browser does not support Java which is required for this utility to operate correctly.
+  # </APPLET>
+  # EOS
     end
 
     def generate_poll_url(path, import_id)
