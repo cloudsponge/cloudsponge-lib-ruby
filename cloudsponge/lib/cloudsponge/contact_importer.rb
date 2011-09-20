@@ -19,8 +19,8 @@ module Cloudsponge
   class ContactImporter
     attr_accessor :key, :password, :import_id
 
-    def initialize(key = nil, password = nil)
-      @key, @password = [key, password]
+    def initialize(key = nil, password = nil, import_id = nil)
+      @key, @password, @import_id = [key, password, import_id]
     end
 
     # guesses the most appropriate invocation for begin_import_xxx()
@@ -104,7 +104,7 @@ module Cloudsponge
     #   throws an exception if an invalid service is invoked.
     def begin_import_consent(source_name, user_id = nil, redirect_url = nil)
       # we need to pass in all params to the call
-      params = {:service => source_name, :user_id => user_id, :redirect_url => redirect_url}.reject{ |k,v| v.nil? || v.empty? }
+      params = {:service => source_name, :user_id => user_id, :redirect_url => redirect_url}.reject{ |_,v| v.blank? }
 
       # get and decode the response into an associated array
       # Throws an exception if there was a problem at the server
