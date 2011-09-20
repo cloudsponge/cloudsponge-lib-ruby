@@ -6,7 +6,10 @@ module Cloudsponge
 
   begin
     require 'json'
+    FORMAT = :json
   rescue
+    require 'rexml/document'
+    FORMAT = :xml
   end
   
   class Utility
@@ -31,7 +34,8 @@ module Cloudsponge
     def self.decode_response(response)
       if response.code_type == Net::HTTPOK
         # decode the response into an asscoiative array
-        resp = decode_response_body(response.body, 'json')
+        # resp = decode_response_body(response.body, 'json')
+        resp = decode_response_body(response.body, FORMAT)
         raise CsException.new(resp['error']['message'], response['code']) if resp['error']
       else
         raise CsException.new(response.body, response.code)
@@ -39,17 +43,20 @@ module Cloudsponge
       resp
     end
 
-    def self.decode_response_body(response, format = 'json')
+    def self.decode_response_body(response, format)
       # TODO: account for systems that use a different JSON parser. Look for json gem...
       # TODO: implement alternate formats: XML
-      object = {'error' => {'message' => 'failed to parse data.', 'code' => 1}}
-      begin
-        object = ActiveSupport::JSON.decode(response)
-      rescue
-        begin 
-          object = JSON.parse(response)
+      object = case format
+      when :json
+        begin
+          ActiveSupport::JSON.decode(response)
         rescue
+          JSON.parse(response) rescue PARSER_ERROR
         end
+      when :xml
+        from_xml(REXML::Document.new(response)) rescue PARSER_ERROR
+      else
+        PARSER_ERROR
       end
       object
     end
@@ -74,5 +81,22 @@ module Cloudsponge
       http.start unless http.started?
       http
     end
+    
+    def self.from_xml(doc)
+      doc.elements.inject({}) do |memo, element|
+        name = element.name && element.name.gsub(/([A-Z]+)/){ |match| "_#{match[0]}" }.downcase
+        value = case element.elements.length
+        when 0
+          element.value || element.text
+        when 1
+          element 
+        end
+        memo[name] = element.value || element.text
+        memo
+      end
+    end
+    
+    PARSER_ERROR = {'error' => {'message' => 'failed to parse data.', 'code' => 1}}
+    
   end
 end

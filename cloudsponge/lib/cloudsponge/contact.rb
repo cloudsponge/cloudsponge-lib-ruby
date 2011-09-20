@@ -1,25 +1,40 @@
 module Cloudsponge
   
   class Contact
-    attr_accessor :first_name, :last_name, :emails, :phones
+    attr_accessor :first_name, :last_name, :emails, :phones, :addresses
 
     def self.from_array(list)
       list.map { |contact_data| Contact.new(contact_data) }.compact
     end
 
     def initialize(contact_data)
+      super()
       # get the basic data
       self.first_name = contact_data['first_name']
       self.last_name = contact_data['last_name']
+
       # get the phone numbers
       self.phones = []
       contact_data['phone'] && contact_data['phone'].each do |phone|
         self.add_array_value(self.phones, phone['number'], phone['type'])
       end
+
       self.emails = []
       contact_data['email'] && contact_data['email'].each do |email|
         self.add_array_value(self.emails, email['address'], email['type'])
       end
+
+      @addresses = contact_data['addresses'] && contact_data['addresses'].inject([]) do |memo, address|
+        memo << {
+          :type => address['type'], 
+          :street => address["street"], 
+          :city => address["city"], 
+          :region => address["region"], 
+          :country => address["country"], 
+          :postal_code => address["postal_code"], 
+          :formatted => address["formatted"]}
+      end || []
+      
       self
     end
 
@@ -33,6 +48,10 @@ module Cloudsponge
 
     def phone
       Contact.get_first_value(self.phones)
+    end
+    
+    def address
+      Contact.get_first_value(self.addresses)
     end
 
     def add_array_value(collection, value, type = nil)

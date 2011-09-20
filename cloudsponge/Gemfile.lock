@@ -1,0 +1,26 @@
+PATH
+  remote: .
+  specs:
+    cloudsponge (0.9.7)
+      json (>= 1.6.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    columnize (0.3.0)
+    json (1.6.1)
+    linecache (0.43)
+    ruby-debug (0.10.3)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.3.0)
+    ruby-debug-base (0.10.3)
+      linecache (>= 0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (>= 1.0.0)
+  cloudsponge!
+  json (>= 1.6.1)
+  ruby-debug (>= 0.10.3)

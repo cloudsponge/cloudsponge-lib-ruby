@@ -19,8 +19,8 @@ module Cloudsponge
   class ContactImporter
     attr_accessor :key, :password, :import_id
 
-    def initialize(key = nil, password = nil, import_id = nil)
-      @key, @password, @import_id = [key, password, import_id]
+    def initialize(key = nil, password = nil, import_id = nil, opts = {})
+      @key, @password, @import_id, @options = [key, password, import_id, opts]
     end
 
     # guesses the most appropriate invocation for begin_import_xxx()
@@ -30,10 +30,11 @@ module Cloudsponge
     #      :consent_url => nil | <consent_url>,
     #      :applet_tag  => nil | <applet_tag>
     #    ]
-    def begin_import(source_name, username = nil, password = nil, user_id = '', redirect_url = nil)
+    def begin_import(source_name, username = nil, password = nil, user_id = '', redirect_url = nil, opts = {})
       id = nil
       consent_url = nil
       applet_tag = nil
+      @options.update(opts)
 
       # look at the given service and decide how which begin function to invoke.
       unless username.nil? || username.empty?
@@ -104,7 +105,7 @@ module Cloudsponge
     #   throws an exception if an invalid service is invoked.
     def begin_import_consent(source_name, user_id = nil, redirect_url = nil)
       # we need to pass in all params to the call
-      params = {:service => source_name, :user_id => user_id, :redirect_url => redirect_url}.reject{ |_,v| v.blank? }
+      params = {:service => source_name, :user_id => user_id, :redirect_url => redirect_url, :include => @options["include"]}.reject{ |_,v| v.nil? || v.empty? }
 
       # get and decode the response into an associated array
       # Throws an exception if there was a problem at the server
@@ -116,7 +117,7 @@ module Cloudsponge
     # throws an exception if an invalid service is invoked.
     def begin_import_applet(source_name, user_id = nil)
       # we need to pass in all params to the call
-      params = {:service => source_name, :user_id => user_id}
+      params = {:service => source_name, :user_id => user_id, :include => @options["include"]}.reject{ |_,v| v.nil? || v.empty? }
 
       # get and decode the response into an associated array
       # Throws an exception if there was a problem at the server
@@ -128,7 +129,7 @@ module Cloudsponge
     # throws an exception if an invalid service is invoked.
     def begin_import_username_password(source_name, username, password, user_id)
       # we need to pass in all params to the call
-      params = {:service => source_name, :user_id => user_id, :username => username, :password => password}
+      params = {:service => source_name, :user_id => user_id, :username => username, :password => password, :include => @options["include"]}.reject{ |_,v| v.nil? || v.empty? }
 
       # get and decode the response into an associated array
       # Throws an exception if there was a problem at the server
