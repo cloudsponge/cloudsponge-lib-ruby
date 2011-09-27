@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project         = "cloudsponge"
 
   s.add_development_dependency "bundler", ">= 1.0.0"
-  s.add_development_dependency "ruby-debug", ">= 0.10.3"
+  # s.add_development_dependency "ruby-debug", ">= 0.10.3"
   s.add_dependency "json", ">=1.6.1"
 
   s.files        = `git ls-files`.split("\n")

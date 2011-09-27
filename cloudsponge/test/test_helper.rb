@@ -1,5 +1,5 @@
-require "test/unit"
-require "cloudsponge"
 require 'rubygems'
+require "test/unit"
+require "lib/cloudsponge"
 require 'ruby-debug'
-
+require 'json'

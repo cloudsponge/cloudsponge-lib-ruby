@@ -24,7 +24,7 @@ module Cloudsponge
         self.add_array_value(self.emails, email['address'], email['type'])
       end
 
-      @addresses = contact_data['addresses'] && contact_data['addresses'].inject([]) do |memo, address|
+      @addresses = contact_data['address'] && contact_data['address'].inject([]) do |memo, address|
         memo << {
           :type => address['type'], 
           :street => address["street"], 
@@ -51,7 +51,7 @@ module Cloudsponge
     end
     
     def address
-      Contact.get_first_value(self.addresses)
+      self.addresses && self.addresses.first && "#{self.addresses.first[:street]} #{self.addresses.first[:city]} #{self.addresses.first[:region]}".strip
     end
 
     def add_array_value(collection, value, type = nil)
