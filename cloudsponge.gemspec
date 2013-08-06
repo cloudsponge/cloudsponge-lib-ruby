@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Graeme Rouse"]
   s.email       = ["graeme@cloudsponge.com"]
-  s.homepage    = "http://rubygems.org/gems/cloudsponge"
+  s.homepage    = "http://www.cloudsponge.com"
   s.summary     = "CloudSponge integration library for Ruby"
   s.description = "CloudSponge is the tool that you need to go viral. Create an account at http://www.cloudsponge.com and integrate with this library. In a few lines of code you'll have access to your users' contact lists."
 
