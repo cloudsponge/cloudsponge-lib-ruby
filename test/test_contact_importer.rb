@@ -10,7 +10,7 @@ class TestContactImporter < Test::Unit::TestCase
   
   def test_u_p_import
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
-    importer.begin_import('AOL', 'u', 'p')
+    importer.begin_import('PLAXO', 'u', 'p')
     contacts = events_wait(importer)
     assert contacts
   end
@@ -27,22 +27,21 @@ class TestContactImporter < Test::Unit::TestCase
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD, nil, {"include" => "mailing_address"})
     importer.begin_import('PLAXO', 'u', 'p')
     contacts = events_wait(importer)
+    assert contacts
     assert contacts[0].detect{ |contact| contact.addresses.any? }
   end
   
   private
   
   def events_wait(importer)
-    contacts = nil
     loop do
       events = importer.get_events
       break unless events.select{ |e| e.is_error? }.empty?
       unless events.select{ |e| e.is_complete? }.empty?
-        contacts = importer.get_contacts
-        break
+        return importer.get_contacts
       end
       sleep 1
     end
-    contacts
+    nil
   end
 end
