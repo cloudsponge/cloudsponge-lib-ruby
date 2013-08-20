@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cloudsponge (0.9.10)
+    cloudsponge (0.9.11)
       json (>= 1.6.1)
 
 GEM

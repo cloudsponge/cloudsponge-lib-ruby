@@ -39,13 +39,14 @@ module Cloudsponge
       # look at the given service and decide how which begin function to invoke.
       unless username.nil? || username.empty?
         resp = begin_import_username_password(source_name, username, password, user_id)
+        consent_url = resp['url'] if resp['url']
       else
         unless (source_name =~ /OUTLOOK/i || source_name =~ /ADDRESSBOOK/i).nil?
           resp = begin_import_applet(source_name, user_id)
           applet_tag = create_applet_tag(resp['id'], resp['url'])
         else
           resp = begin_import_consent(source_name, user_id, redirect_url)
-          consent_url = resp['url']
+          consent_url = resp['url'] if resp['url']
         end
       end
 

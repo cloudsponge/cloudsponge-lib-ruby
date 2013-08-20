@@ -14,6 +14,22 @@ class TestContactImporter < Test::Unit::TestCase
     contacts = events_wait(importer)
     assert contacts
   end
+
+  def test_aol_import
+    importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
+    resp = importer.begin_import('AOL', 'u', 'p')
+    puts "Navigate to #{resp[:consent_url]} and complete the authentication process." if resp[:consent_url]
+    contacts = events_wait(importer)
+    assert contacts
+  end
+
+  def test_wl_import
+    importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
+    resp = importer.begin_import('WINDOWSLIVE')
+    puts "Navigate to #{resp[:consent_url]} and complete the authentication process." if resp[:consent_url]
+    contacts = events_wait(importer)
+    assert contacts
+  end
   
   def test_auth_import
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
