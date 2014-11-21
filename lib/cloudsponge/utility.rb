@@ -69,7 +69,6 @@ module Cloudsponge
       # @csimport_http.read_timeout = @timeout || 30
       if url.port == 443
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
       http.start unless http.started?
       http
