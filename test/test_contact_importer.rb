@@ -1,4 +1,4 @@
-require 'test/test_helper'
+require 'test_helper'
 
 class TestContactImporter < Test::Unit::TestCase
   def test_version_exists
