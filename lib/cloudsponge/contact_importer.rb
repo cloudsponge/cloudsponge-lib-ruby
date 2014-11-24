@@ -189,8 +189,9 @@ module Cloudsponge
     end
 
     def generate_poll_url(path, import_id)
+      _nonce = Time.now.to_i
       # get the query_string with authentication params and assemble the full url
-      "#{URL_BASE}#{path}#{import_id}?#{authenticated_query}"
+      "#{URL_BASE}#{path}#{import_id}?_=#{_nonce}&#{authenticated_query}"
     end
   
   end
