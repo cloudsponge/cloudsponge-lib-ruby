@@ -1,17 +1,16 @@
 PATH
   remote: .
   specs:
-    cloudsponge (0.9.12)
+    cloudsponge (0.9.13)
       json (>= 1.6.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    json (1.6.1)
+    json (1.8.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   cloudsponge!
-  json (>= 1.6.1)
