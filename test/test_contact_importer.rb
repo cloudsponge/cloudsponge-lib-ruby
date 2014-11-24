@@ -1,24 +1,24 @@
-require 'test/test_helper'
+require 'test_helper'
 
 class TestContactImporter < Test::Unit::TestCase
   def test_version_exists
     assert Cloudsponge::VERSION
   end
-  
-  DOMAIN_KEY = "Domain Key"
-  DOMAIN_PASSWORD = "Domain Password"
-  
+
   def test_u_p_import
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
-    importer.begin_import('PLAXO', 'u', 'p')
+    importer.begin_import('PLAXO', PLAXO[:user], PLAXO[:password])
     contacts = events_wait(importer)
     assert contacts
   end
 
   def test_aol_import
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
-    resp = importer.begin_import('AOL', 'u', 'p')
-    puts "Navigate to #{resp[:consent_url]} and complete the authentication process." if resp[:consent_url]
+    resp = importer.begin_import('AOL')
+    if resp[:consent_url]
+      puts "Navigate to #{resp[:consent_url]} and complete the authentication process."
+      `open '#{resp[:consent_url]}'`
+    end
     contacts = events_wait(importer)
     assert contacts
   end
@@ -26,29 +26,35 @@ class TestContactImporter < Test::Unit::TestCase
   def test_wl_import
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
     resp = importer.begin_import('WINDOWSLIVE')
-    puts "Navigate to #{resp[:consent_url]} and complete the authentication process." if resp[:consent_url]
+    if resp[:consent_url]
+      puts "Navigate to #{resp[:consent_url]} and complete the authentication process."
+      `open '#{resp[:consent_url]}'`
+    end
     contacts = events_wait(importer)
     assert contacts
   end
-  
+
   def test_auth_import
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD)
     resp = importer.begin_import('YAHOO')
-    puts "Navigate to #{resp[:consent_url]} and complete the authentication process."
+    if resp[:consent_url]
+      puts "Navigate to #{resp[:consent_url]} and complete the authentication process."
+      `open '#{resp[:consent_url]}'`
+    end
     contacts = events_wait(importer)
     assert contacts
   end
-  
+
   def test_contacts_with_mailing_addresses
     importer = Cloudsponge::ContactImporter.new(DOMAIN_KEY, DOMAIN_PASSWORD, nil, {"include" => "mailing_address"})
-    importer.begin_import('PLAXO', 'u', 'p')
+    importer.begin_import('PLAXO', PLAXO[:user], PLAXO[:password])
     contacts = events_wait(importer)
     assert contacts
     assert contacts[0].detect{ |contact| contact.addresses.any? }
   end
-  
+
   private
-  
+
   def events_wait(importer)
     loop do
       events = importer.get_events
