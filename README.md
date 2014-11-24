@@ -47,8 +47,17 @@ Install
 -------
 
 ```bash
-sudo gem install cloudsponge
+gem install cloudsponge
 ```
+
+OR using bunder, add 
+
+```ruby
+# cloudsponge integration library
+gem 'cloudsponge', github: 'cloudsponge/cloudsponge-lib-ruby'
+```
+
+to your Gemfile
 
 License
 =======
