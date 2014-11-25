@@ -32,6 +32,8 @@ Usage:
       contacts = importer.get_contacts
       break
     end
+    # be nice and take a short break
+    sleep 1
   end
 ```
 
