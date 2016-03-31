@@ -1,5 +1,4 @@
 module Cloudsponge
-  
   class Contact
 
     def self.from_array(list)
@@ -8,23 +7,7 @@ module Cloudsponge
 
     def initialize(contact_data)
       super()
-      
-      contact_data.each do |key, content|
-        self.class.send(:define_method, key) do
-          result = if content.is_a?(String)
-            content
-          else
-            special = {:phone => "phones", :email => "emails", :address => "addresses"}
-            if special.keys.include?(key.to_sym)
-              process_array(special[key.to_sym], content)
-            else
-              process_array(key, content)
-            end
-          end
-          result
-        end
-      end
-      
+      @contact_data = contact_data
       self
     end
 
@@ -37,9 +20,22 @@ module Cloudsponge
       return from_array && from_array.first && from_array.first[:value] unless field.to_sym == :address
       self.address && self.address.first && "#{self.address.first[:street]} #{self.address.first[:city]} #{self.address.first[:region]}".strip
     end
+   
+    def method_missing(method_sym, *arguments, &block)
+      if @contact_data.keys.include? method_sym.to_s
+        result = if @contact_data[method_sym.to_s].is_a?(String)
+          @contact_data[method_sym.to_s]
+        else
+          process_array(method_sym.to_s, @contact_data[method_sym.to_s])
+        end
+        result
+      else
+        super
+      end
+    end
 
-  private
-
+    private
+    
     def process_array(key, content)
       method_name = "process_#{key}"
       if self.private_methods.include? method_name.to_sym
@@ -57,7 +53,7 @@ module Cloudsponge
       end
     end
     
-    def process_emails(content)
+    def process_email(content)
       @emails = content && content.inject([]) do |memo, email|
         email = email.inject({}){|i,(k,v)| i[k.to_sym] = v; i}
         memo << {:value => email[:address], :type => email[:type]}
@@ -65,7 +61,7 @@ module Cloudsponge
       @emails
     end
     
-    def process_phones(content)
+    def process_phone(content)
       @phones = content && content.inject([]) do |memo, phone|
         phone = phone.inject({}){|i,(k,v)| i[k.to_sym] = v; i}
         memo << {:value => phone[:number], :type => phone[:type]}
@@ -73,7 +69,7 @@ module Cloudsponge
       @phones
     end
     
-    def process_addresses(content)
+    def process_address(content)
       @addresses = content && content.inject([]) do |memo, address|
         memo << {
           :type => address['type'], 
