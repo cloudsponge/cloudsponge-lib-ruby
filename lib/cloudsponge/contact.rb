@@ -1,7 +1,6 @@
 module Cloudsponge
   
   class Contact
-    attr_accessor :first_name, :last_name, :emails, :phones, :addresses
 
     def self.from_array(list)
       list.map { |contact_data| Contact.new(contact_data) }.compact
@@ -9,22 +8,73 @@ module Cloudsponge
 
     def initialize(contact_data)
       super()
-      # get the basic data
-      self.first_name = contact_data['first_name']
-      self.last_name = contact_data['last_name']
-
-      # get the phone numbers
-      self.phones = []
-      contact_data['phone'] && contact_data['phone'].each do |phone|
-        self.add_array_value(self.phones, phone['number'], phone['type'])
+      
+      contact_data.each do |key, content|
+        self.class.send(:define_method, key) do
+          result = if content.is_a?(String)
+            content
+          else
+            special = {:phone => "phones", :email => "emails", :address => "addresses"}
+            if special.keys.include?(key.to_sym)
+              process_array(special[key.to_sym], content)
+            else
+              process_array(key, content)
+            end
+          end
+          result
+        end
       end
+      
+      self
+    end
 
-      self.emails = []
-      contact_data['email'] && contact_data['email'].each do |email|
-        self.add_array_value(self.emails, email['address'], email['type'])
+    def name
+      "#{self.first_name} #{self.last_name}"
+    end
+    
+    def first_from(field)
+      from_array = self.send(field)  
+      return from_array && from_array.first && from_array.first[:value] unless field.to_sym == :address
+      self.address && self.address.first && "#{self.address.first[:street]} #{self.address.first[:city]} #{self.address.first[:region]}".strip
+    end
+
+  private
+
+    def process_array(key, content)
+      method_name = "process_#{key}"
+      if self.private_methods.include? method_name.to_sym
+        send("process_#{key}", content)
+      else
+        send("process_unknown", content)
       end
-
-      @addresses = contact_data['address'] && contact_data['address'].inject([]) do |memo, address|
+    end
+    
+    def process_unknown(content)
+      if content.is_a?(Hash)
+        content.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+      else
+        content
+      end
+    end
+    
+    def process_emails(content)
+      @emails = content && content.inject([]) do |memo, email|
+        email = email.inject({}){|i,(k,v)| i[k.to_sym] = v; i}
+        memo << {:value => email[:address], :type => email[:type]}
+      end || []
+      @emails
+    end
+    
+    def process_phones(content)
+      @phones = content && content.inject([]) do |memo, phone|
+        phone = phone.inject({}){|i,(k,v)| i[k.to_sym] = v; i}
+        memo << {:value => phone[:number], :type => phone[:type]}
+      end || []
+      @phones
+    end
+    
+    def process_addresses(content)
+      @addresses = content && content.inject([]) do |memo, address|
         memo << {
           :type => address['type'], 
           :street => address["street"], 
@@ -34,34 +84,7 @@ module Cloudsponge
           :postal_code => address["postal_code"], 
           :formatted => address["formatted"]}
       end || []
-      
-      self
-    end
-
-    def name
-      "#{self.first_name} #{self.last_name}"
-    end
-
-    def email
-      Contact.get_first_value(self.emails)
-    end
-
-    def phone
-      Contact.get_first_value(self.phones)
-    end
-    
-    def address
-      self.addresses && self.addresses.first && "#{self.addresses.first[:street]} #{self.addresses.first[:city]} #{self.addresses.first[:region]}".strip
-    end
-
-    def add_array_value(collection, value, type = nil)
-      collection << {:value => value, :type => type}
-    end
-
-  private
-
-    def self.get_first_value(from_array)
-      from_array && from_array.first && from_array.first[:value]
+      @addresses
     end
 
   end
