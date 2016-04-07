@@ -8,19 +8,19 @@ class TestContact < Test::Unit::TestCase
     assert_equal data['first_name'], contact.first_name
     assert_equal data['last_name'], contact.last_name
     assert_equal "#{data['first_name']} #{data['last_name']}", contact.name
-    assert_equal nil, contact.first_from(:email)
-    assert_equal nil, contact.first_from(:phone)
+    assert_equal nil, contact.email
+    assert_equal nil, contact.phone
 
     data = {'first_name' => 'John', 'last_name' => 'Smith', 'email' => [{'address' => 'joe@example.com'}], 'phone' => [{'number' => '555-1234'}]}
     assert contact = Cloudsponge::Contact.new(data)
     assert_equal data['first_name'], contact.first_name
     assert_equal data['last_name'], contact.last_name
     assert_equal "#{data['first_name']} #{data['last_name']}", contact.name
-    assert_equal 'joe@example.com', contact.first_from(:email)
-    assert_equal '555-1234'       , contact.first_from(:phone)
+    assert_equal 'joe@example.com', contact.email
+    assert_equal '555-1234'       , contact.phone
   end
   
-  def test_from_unexpected_data
+  def test_from_all_possible_attributes
     data = { "first_name" =>"Abigale Kirlin",
              "last_name"  =>"Kautzer",
              "phone"=>
@@ -59,6 +59,7 @@ class TestContact < Test::Unit::TestCase
              "dob"=>"1994-08-27",
              "birthday"=>"08-27",
              "companies"=>["O'Conner Inc"],
+             "title"=> "Mr.",
              "job_title"=>"District Integration Administrator",
              "photos"=>[],
              "locations"=>[]}
@@ -68,14 +69,19 @@ class TestContact < Test::Unit::TestCase
     assert_equal data['last_name'], contact.last_name
     assert_equal "#{data['first_name']} #{data['last_name']}", contact.name
     
-    assert_equal 'cesar@kub.info', contact.first_from(:email)
-    assert_equal '1-274-714-0088', contact.first_from(:phone)
-    assert_equal '4535 Bednar Trace  Turnermouth Wisconsin', contact.first_from(:address)
+    assert_equal 'cesar@kub.info', contact.email
+    assert_equal '1-274-714-0088', contact.phone
+    assert_equal '4535 Bednar Trace  Turnermouth Wisconsin', contact.address
     
+    assert_equal Array, contact.emails.class
+    assert_equal Array, contact.phones.class
+    assert_equal Array, contact.addresses.class
+
     assert_equal data["groups"]   , contact.groups
     assert_equal data["dob"]      , contact.dob
     assert_equal data["birthday"] , contact.birthday
     assert_equal data["companies"], contact.companies
+    assert_equal data["title"]    , contact.title
     assert_equal data["job_title"], contact.job_title
     assert_equal data["photos"]   , contact.photos
     assert_equal data["locations"], contact.locations
