@@ -13,7 +13,7 @@ module Cloudsponge
     
     def self.object_to_query(object)
       return object unless object.is_a? Hash
-      object.map{ |k,v| "#{URI.encode(k.to_s)}=#{URI.encode(v.to_s)}" }.join('&')
+      object.map{ |k,v| "#{CGI.escape(k.to_s)}=#{CGI.escape(v.to_s)}" }.join('&')
     end
     
     def self.post_and_decode_response(url, params)
