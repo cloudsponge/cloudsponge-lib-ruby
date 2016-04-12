@@ -1,5 +1,6 @@
 require 'test/unit'
 require 'cloudsponge'
+require 'vcr'
 
 DOMAIN_KEY = "DOMAIN_KEY"
 DOMAIN_PASSWORD = "DOMAIN_PASSWORD"
