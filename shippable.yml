@@ -5,9 +5,6 @@ rvm:
 bundler_args:
   --path $SHIPPABLE_BUILD_DIR/_vendor
 
-env:
-  - deploy=master deploy_dir=$SHIPPABLE_BUILD_DIR/_$deploy
-
 build:
   ci:
     # install bundle into the cached _vendor path
