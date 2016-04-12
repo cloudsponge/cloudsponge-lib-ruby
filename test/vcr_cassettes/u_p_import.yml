@@ -1,0 +1,198 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://DOMAIN_KEY:DOMAIN_PASSWORD@api.cloudsponge.com/begin_import/import/
+    body:
+      encoding: US-ASCII
+      string: service=PLAXO&username=u&password=p
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, private, no-store, max-age=0, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 12 Apr 2016 22:18:57 GMT
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      P3p:
+      - policyref="/w3c/policy1.p3p",CP="ALL DSP COR CURa ADMa DEVa TAIa OUR BUS IND
+        UNI COM NAV INT"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - 8a79c4c2-dc1c-4a1d-aadb-12e0880ea108
+      X-Runtime:
+      - '0.084023'
+      Content-Length:
+      - '85'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status":"success","echo":null,"import_id":89709297,"user_id":null,"id":89709297}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:18:57 GMT
+- request:
+    method: get
+    uri: https://DOMAIN_KEY:DOMAIN_PASSWORD@api.cloudsponge.com/events/89709297?_=1460499537
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, private, no-store, max-age=0, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 12 Apr 2016 22:18:57 GMT
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      P3p:
+      - policyref="/w3c/policy1.p3p",CP="ALL DSP COR CURa ADMa DEVa TAIa OUR BUS IND
+        UNI COM NAV INT"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - 1d4294a1-d34f-4d71-bfee-b428c44320ac
+      X-Runtime:
+      - '0.011061'
+      Content-Length:
+      - '204'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"events":[{"import_action_id":89709297,"import_id":89709297,"event_type":"INITIALIZING","value":0,"description":null,"status":"COMPLETED","created_at":"2016-04-12T15:18:57.000-07:00"},{"import_action_id":89709297,"import_id":89709297,"event_type":"GATHERING","value":0,"description":null,"status":"INPROGRESS","created_at":"2016-04-12T15:18:57.000-07:00"}],"import_id":89709297,"user_id":null,"id":89709297}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:18:57 GMT
+- request:
+    method: get
+    uri: https://DOMAIN_KEY:DOMAIN_PASSWORD@api.cloudsponge.com/events/89709297?_=1460499538
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, private, no-store, max-age=0, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 12 Apr 2016 22:18:58 GMT
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      P3p:
+      - policyref="/w3c/policy1.p3p",CP="ALL DSP COR CURa ADMa DEVa TAIa OUR BUS IND
+        UNI COM NAV INT"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - 4adf31d3-b210-4172-a154-adc12dcf1416
+      X-Runtime:
+      - '0.006769'
+      Content-Length:
+      - '204'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"events":[{"import_action_id":89709297,"import_id":89709297,"event_type":"INITIALIZING","value":0,"description":null,"status":"COMPLETED","created_at":"2016-04-12T15:18:57.000-07:00"},{"import_action_id":89709297,"import_id":89709297,"event_type":"GATHERING","value":1,"description":null,"status":"COMPLETED","created_at":"2016-04-12T15:18:57.000-07:00"},{"import_action_id":89709297,"import_id":89709297,"event_type":"COMPLETE","value":0,"description":null,"status":"COMPLETED","created_at":"2016-04-12T15:18:57.000-07:00"}],"import_id":89709297,"user_id":null,"id":89709297}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:18:58 GMT
+- request:
+    method: get
+    uri: https://DOMAIN_KEY:DOMAIN_PASSWORD@api.cloudsponge.com/contacts/89709297?_=1460499538
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, private, no-store, max-age=0, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 12 Apr 2016 22:18:59 GMT
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      P3p:
+      - policyref="/w3c/policy1.p3p",CP="ALL DSP COR CURa ADMa DEVa TAIa OUR BUS IND
+        UNI COM NAV INT"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      X-Frame-Options:
+      - ALLOWALL
+      X-Request-Id:
+      - 7d283f2f-a66f-4b6c-bbd9-e9904d556d63
+      X-Runtime:
+      - '0.019275'
+      Content-Length:
+      - '277'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"contacts":[{"first_name":"Aurantium","last_name":"Intrusional","phone":[{"number":"9713385626","type":"Work
+        Mobile"}],"email":[{"address":"timberwood@nowhere.com","type":"Home 1"}],"address":[],"groups":[],"companies":[null],"photos":[],"locations":[]}],"contacts_owner":{"owner":true,"email":[{"address":"cloudspongeone@gmail.com\t"}]},"start":0,"count":1,"total":1,"import_id":89709297,"user_id":null,"id":89709297,"echo":null}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:18:59 GMT
+recorded_with: VCR 3.0.0
