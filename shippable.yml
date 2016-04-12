@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+  - 2.1.5
+
+bundler_args:
+  --path $SHIPPABLE_BUILD_DIR/_vendor
+
+env:
+  - deploy=master deploy_dir=$SHIPPABLE_BUILD_DIR/_$deploy
+
+build:
+  ci:
+    # install bundle into the cached _vendor path
+    - bundle install --gemfile=$SHIPPABLE_GEMFILE $SHIPPABLE_BUNDLER_ARGS
+
+    # run specs
+    - bundle exec rake test
+
+  cache: true
