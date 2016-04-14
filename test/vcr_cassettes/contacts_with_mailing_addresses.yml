@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://AKBY8AL8QZZNUYQ3KGWJ:09qT1vLs3qXzGKv@api.cloudsponge.com/begin_import/user_consent/
+    uri: https://DOMAIN_KEY:DOMAIN_PASSWORD@api.cloudsponge.com/begin_import/user_consent/
     body:
       encoding: US-ASCII
       string: service=AOL&include=mailing_address
@@ -52,7 +52,7 @@ http_interactions:
   recorded_at: Tue, 12 Apr 2016 22:29:59 GMT
 - request:
     method: get
-    uri: https://AKBY8AL8QZZNUYQ3KGWJ:09qT1vLs3qXzGKv@api.cloudsponge.com/events/89709844?_=1460500213
+    uri: https://DOMAIN_KEY:DOMAIN_PASSWORD@api.cloudsponge.com/events/89709844?_=1460500213
     body:
       encoding: US-ASCII
       string: ''
@@ -100,7 +100,7 @@ http_interactions:
   recorded_at: Tue, 12 Apr 2016 22:30:14 GMT
 - request:
     method: get
-    uri: https://AKBY8AL8QZZNUYQ3KGWJ:09qT1vLs3qXzGKv@api.cloudsponge.com/contacts/89709844?_=1460500214
+    uri: https://DOMAIN_KEY:DOMAIN_PASSWORD@api.cloudsponge.com/contacts/89709844?_=1460500214
     body:
       encoding: US-ASCII
       string: ''
