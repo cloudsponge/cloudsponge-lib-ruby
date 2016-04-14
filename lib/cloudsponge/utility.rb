@@ -13,18 +13,18 @@ module Cloudsponge
     
     def self.object_to_query(object)
       return object unless object.is_a? Hash
-      object.map{ |k,v| "#{URI.encode(k.to_s)}=#{URI.encode(v.to_s)}" }.join('&')
+      object.map{ |k,v| "#{CGI.escape(k.to_s)}=#{CGI.escape(v.to_s)}" }.join('&')
     end
     
-    def self.post_and_decode_response(url, params)
+    def self.post_and_decode_response(url, params, auth)
       # post the response
-      response = post_url(url, params)
+      response = post_url(url, params, auth)
       decode_response(response)
     end
 
-    def self.get_and_decode_response(full_url)
+    def self.get_and_decode_response(full_url, auth)
       # get the response
-      response = get_url(full_url)
+      response = get_url(full_url, auth)
       decode_response(response)
     end
     
@@ -54,24 +54,29 @@ module Cloudsponge
       object
     end
 
-    def self.get_url(url)
+    def self.get_url(url, auth)
       url = URI.parse(url)
-      open_http(url).get("#{url.path}?#{url.query}")
+      open_http(url, url.query, auth, :get)
     end
 
-    def self.post_url(url, params)
+    def self.post_url(url, params, auth)
       url = URI.parse(url)
-      open_http(url).post("#{url.path}","#{object_to_query(params)}")
+      open_http(url, params, auth, :post)
     end
 
-    def self.open_http(url)
+    def self.open_http(url, params, auth, method)
       http = Net::HTTP.new(url.host, url.port)
-      # @csimport_http.read_timeout = @timeout || 30
       if url.port == 443
         http.use_ssl = true
+      end 
+      request = if method == :post
+        Net::HTTP::Post.new(url.request_uri)
+      else
+        Net::HTTP::Get.new(url.request_uri)
       end
-      http.start unless http.started?
-      http
+      request.set_form_data(params) if method == :post
+      request.basic_auth(auth[:domain_key], auth[:domain_password])
+      http.request(request)
     end
   end
 end

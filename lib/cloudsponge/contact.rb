@@ -1,69 +1,49 @@
 module Cloudsponge
-  
-  class Contact
-    attr_accessor :first_name, :last_name, :emails, :phones, :addresses
-
-    def self.from_array(list)
-      list.map { |contact_data| Contact.new(contact_data) }.compact
-    end
-
+  class Contact < ContactBase
+    attribute :first_name
+    attribute :last_name
+    attribute :phones
+    attribute :emails
+    attribute :addresses
+    attribute :groups
+    attribute :dob
+    attribute :birthday
+    attribute :title
+    attribute :companies
+    attribute :job_title
+    attribute :photos
+    attribute :locations
+    
     def initialize(contact_data)
       super()
-      # get the basic data
-      self.first_name = contact_data['first_name']
-      self.last_name = contact_data['last_name']
-
-      # get the phone numbers
-      self.phones = []
-      contact_data['phone'] && contact_data['phone'].each do |phone|
-        self.add_array_value(self.phones, phone['number'], phone['type'])
-      end
-
-      self.emails = []
-      contact_data['email'] && contact_data['email'].each do |email|
-        self.add_array_value(self.emails, email['address'], email['type'])
-      end
-
-      @addresses = contact_data['address'] && contact_data['address'].inject([]) do |memo, address|
-        memo << {
-          :type => address['type'], 
-          :street => address["street"], 
-          :city => address["city"], 
-          :region => address["region"], 
-          :country => address["country"], 
-          :postal_code => address["postal_code"], 
-          :formatted => address["formatted"]}
-      end || []
-      
+      @contact_data = contact_data
       self
+    end
+    
+    def self.from_array(list)
+      list.map { |contact_data| Contact.new(contact_data) }.compact
     end
 
     def name
       "#{self.first_name} #{self.last_name}"
     end
-
+   
     def email
-      Contact.get_first_value(self.emails)
-    end
-
-    def phone
-      Contact.get_first_value(self.phones)
+      first_from(:emails)
     end
     
+    def phone
+      first_from(:phones)
+    end
+
     def address
+      first_from(:addresses)
+    end
+
+    def first_from(field)
+      from_array = self.send(field)  
+      return from_array && from_array.first && from_array.first[:value] unless field.to_sym == :addresses
       self.addresses && self.addresses.first && "#{self.addresses.first[:street]} #{self.addresses.first[:city]} #{self.addresses.first[:region]}".strip
     end
-
-    def add_array_value(collection, value, type = nil)
-      collection << {:value => value, :type => type}
-    end
-
-  private
-
-    def self.get_first_value(from_array)
-      from_array && from_array.first && from_array.first[:value]
-    end
-
   end
-
 end

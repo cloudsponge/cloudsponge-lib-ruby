@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/cloudsponge/version')
 require File.expand_path(File.dirname(__FILE__) + '/cloudsponge/contact_importer')
+require File.expand_path(File.dirname(__FILE__) + '/cloudsponge/contact_base')
 require File.expand_path(File.dirname(__FILE__) + '/cloudsponge/contact')
 require File.expand_path(File.dirname(__FILE__) + '/cloudsponge/event')
 require File.expand_path(File.dirname(__FILE__) + '/cloudsponge/cs_exception')

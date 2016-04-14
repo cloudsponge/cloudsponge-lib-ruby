@@ -64,7 +64,7 @@ module Cloudsponge
       full_url = generate_poll_url(EVENTS_PATH, import_id)
 
       # get the response from the server and decode it
-      resp = Utility.get_and_decode_response(full_url)
+      resp = Utility.get_and_decode_response(full_url, auth)
       # interpret the result
       Event.from_array(resp['events'])
     end
@@ -91,7 +91,7 @@ module Cloudsponge
 
       # get the response from the server and decode it
       begin
-        resp = Utility.get_and_decode_response(generate_poll_url(CONTACTS_PATH, import_id))
+        resp = Utility.get_and_decode_response(generate_poll_url(CONTACTS_PATH, import_id), auth)
       rescue CsException => e
         raise e unless e.code == 404
       end
@@ -110,7 +110,7 @@ module Cloudsponge
 
       # get and decode the response into an associated array
       # Throws an exception if there was a problem at the server
-      Utility.post_and_decode_response(full_url(CONSENT_PATH), authenticated_params(params))
+      Utility.post_and_decode_response(full_url(CONSENT_PATH), params, auth)
     end
 
     # invokes the begin import action for the desktop applet import process.
@@ -122,7 +122,7 @@ module Cloudsponge
 
       # get and decode the response into an associated array
       # Throws an exception if there was a problem at the server
-      Utility.post_and_decode_response(full_url(APPLET_PATH), authenticated_params(params))
+      Utility.post_and_decode_response(full_url(APPLET_PATH), params, auth)
     end
 
     # invokes the begin import action for the desktop applet import process.
@@ -134,7 +134,7 @@ module Cloudsponge
 
       # get and decode the response into an associated array
       # Throws an exception if there was a problem at the server
-      Utility.post_and_decode_response(full_url(IMPORT_PATH), authenticated_params(params))
+      Utility.post_and_decode_response(full_url(IMPORT_PATH), params, auth)
     end
     
     def full_url(path)
@@ -146,9 +146,13 @@ module Cloudsponge
       params.merge({:domain_key => self.key, :domain_password => self.password})
     end
 
+    def auth
+      {:domain_key => self.key, :domain_password => self.password}
+    end
+
     def authenticated_query(params = {})
       # append domain_key, domain_password to params and serialze into a query string
-      Utility.object_to_query(authenticated_params(params))
+      Utility.object_to_query(params)
     end
 
     def create_applet_tag(id, url)
