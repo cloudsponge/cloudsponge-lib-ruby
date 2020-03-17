@@ -7,18 +7,23 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.4.0)
-    crack (0.4.2)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
+    crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    hashdiff (0.2.3)
-    json (1.8.3)
-    rake (10.5.0)
-    safe_yaml (1.0.4)
-    vcr (3.0.0)
-    webmock (1.22.3)
+    hashdiff (1.0.1)
+    json (2.3.0)
+    power_assert (1.1.6)
+    public_suffix (4.0.3)
+    rake (13.0.1)
+    safe_yaml (1.0.5)
+    test-unit (3.3.5)
+      power_assert
+    vcr (5.1.0)
+    webmock (3.8.3)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-      hashdiff
+      hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
   ruby
@@ -26,8 +31,9 @@ PLATFORMS
 DEPENDENCIES
   cloudsponge!
   rake
+  test-unit
   vcr
   webmock
 
 BUNDLED WITH
-   1.11.2
+   1.17.2

@@ -1,5 +1,4 @@
-require "test/unit"
-require "cloudsponge"
+require "test_helper"
 
 class TestContact < Test::Unit::TestCase
   def test_new_from_data

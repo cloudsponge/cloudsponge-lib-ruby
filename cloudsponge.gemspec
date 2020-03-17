@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.add_dependency "json", ">=1.6.1"
   s.add_development_dependency "rake"
+  s.add_development_dependency "test-unit"
   s.add_development_dependency "vcr"
   s.add_development_dependency "webmock"
 

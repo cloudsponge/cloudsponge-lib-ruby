@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.1.5
+  - 2.6.5
 
 bundler_args:
   --path $SHIPPABLE_BUILD_DIR/_vendor
