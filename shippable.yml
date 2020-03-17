@@ -11,6 +11,6 @@ build:
     - bundle install --gemfile=$SHIPPABLE_GEMFILE $SHIPPABLE_BUNDLER_ARGS
 
     # run specs
-    - bundle exec rake test
+    - rake test
 
   cache: true
