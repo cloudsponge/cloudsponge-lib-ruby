@@ -46,7 +46,7 @@ jobs:
       with:
         path: ./coverage/coverage.xml
         minimum_coverage: 7
-        repo_token: ${{ secrets.CI_COBERTURA_REPORTS }}
+        repo_token: ${{ secrets.CI_COBERTURA_REPORTS_PUBLIC }}
 
     # - name: TODO - flog complexity report
 
