@@ -2,6 +2,14 @@ require 'test/unit'
 require 'vcr'
 require 'cloudsponge'
 
+if ENV['CI']
+  require 'simplecov'
+  require 'simplecov-cobertura'
+  SimpleCov.start do
+    formatter SimpleCov::Formatter::CoberturaFormatter
+  end
+end
+
 DOMAIN_KEY = "DOMAIN_KEY"
 DOMAIN_PASSWORD = "DOMAIN_PASSWORD"
 
